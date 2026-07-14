@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IA desde Cero — Curso gratis en español</title>
+  <meta name="description" content="Curso gratuito para aprender a usar la inteligencia artificial desde cero, en español. Sin conocimientos previos: no necesitás saber programar ni nada técnico." />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <link rel="stylesheet" href="/assets/base.css" />
+  <link rel="stylesheet" href="/cursodeia/curso.css" />
+</head>
+<body>
+  <a href="#view" class="btn btn--sm" style="position:absolute;left:-9999px;top:0" onfocus="this.style.left='8px';this.style.top='8px';this.style.zIndex='100'" onblur="this.style.left='-9999px'">Saltar al contenido</a>
+
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    <div class="crumb">
+      <a href="/">nachidev</a>
+      <span class="sep">/</span>
+      <a href="#/">Curso de IA</a>
+      <span class="sep">/</span>
+      <span class="cur" id="crumbCur">Inicio</span>
+    </div>
+    <div class="bar-wrap" title="Tu progreso en el curso">
+      <div class="progress"><i id="topBar"></i></div>
+      <span class="pct" id="topPct">0%</span>
+    </div>
+    <a class="home-link btn btn--sm btn--ghost" href="/">← Proyectos</a>
+  </header>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="Índice del curso"></aside>
+    <div class="scrim" id="scrim"></div>
+    <main class="view" id="view"></main>
+  </div>
+
+  <script src="/cursodeia/content.js"></script>
+  <script src="/cursodeia/curso.js"></script>
+</body>
+</html>
