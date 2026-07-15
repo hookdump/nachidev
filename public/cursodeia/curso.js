@@ -179,6 +179,8 @@
       h += "</section>";
     });
 
+    if (mod.quiz && mod.quiz.length) h += renderQuizHTML(mod);
+
     // pager
     h += '<div class="pager">';
     if (prev) h += '<a class="prev" href="#/' + prev.id + '"><span class="dir">← Módulo anterior</span><span class="ttl">' + prev.icon + " " + esc(prev.title) + "</span></a>";
@@ -206,6 +208,7 @@
       });
     });
 
+    if (mod.quiz && mod.quiz.length) wireQuiz(mod);
     renderTOC(mod.id, scrollLessonId || (mod.lessons[0] && mod.lessons[0].id));
     updateTop("Módulo " + mod.num);
     document.title = mod.num + ". " + mod.title + " — " + CURSO.title;
@@ -217,6 +220,90 @@
     window.scrollTo(0, 0);
   }
   function doneCountFrom(map) { var n = 0; lessons.forEach(function (x) { if (map[x.lesson.id]) n++; }); return n; }
+
+  // ---- quiz ----
+  var QUIZ_KEY = "cursoia:quiz";
+  function loadQuiz() { try { return JSON.parse(localStorage.getItem(QUIZ_KEY) || "{}") || {}; } catch (e) { return {}; } }
+  function saveQuiz(m) { try { localStorage.setItem(QUIZ_KEY, JSON.stringify(m)); } catch (e) {} }
+  function letter(i) { return String.fromCharCode(65 + i); }
+  function explainHTML(q, chosen) {
+    var head = chosen === q.answer ? "¡Correcto! " : "Respuesta correcta: " + letter(q.answer) + ". ";
+    return "<b>" + head + "</b>" + esc(q.explain);
+  }
+  function renderQuizHTML(mod) {
+    var saved = loadQuiz()[mod.id] || {};
+    var h = '<section class="quiz" id="quiz-' + mod.id + '">';
+    h += '<div class="quiz-head"><span class="q-emoji">📝</span><h2>Ponete a prueba</h2></div>';
+    h += '<p class="quiz-intro">Un repaso rápido del módulo. Elegí una opción y vas a ver al toque si acertaste, con una breve explicación.</p>';
+    mod.quiz.forEach(function (q, qi) {
+      var chosen = saved[qi];
+      var answered = chosen !== undefined && chosen !== null;
+      h += '<div class="q" data-q="' + qi + '">';
+      h += '<div class="q-text"><span class="q-n">' + (qi + 1) + ".</span>" + esc(q.q) + "</div>";
+      q.options.forEach(function (opt, oi) {
+        var cls = "opt", dis = "";
+        if (answered) {
+          dis = "disabled";
+          if (oi === q.answer) cls += " correct";
+          else if (oi === chosen) cls += " wrong";
+          else cls += " dim";
+        }
+        h += '<button class="' + cls + '" ' + dis + ' data-q="' + qi + '" data-o="' + oi + '">';
+        h += '<span class="letter">' + letter(oi) + "</span><span>" + esc(opt) + "</span></button>";
+      });
+      h += '<div class="explain' + (answered ? " show" : "") + '">' + (answered ? explainHTML(q, chosen) : "") + "</div>";
+      h += "</div>";
+    });
+    h += '<div class="quiz-score" id="score-' + mod.id + '"></div>';
+    h += "</section>";
+    return h;
+  }
+  function wireQuiz(mod) {
+    els.view.querySelectorAll(".quiz .opt").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (btn.disabled) return;
+        var qi = +btn.getAttribute("data-q"), oi = +btn.getAttribute("data-o");
+        var q = mod.quiz[qi];
+        var map = loadQuiz();
+        if (!map[mod.id]) map[mod.id] = {};
+        if (map[mod.id][qi] !== undefined) return;
+        map[mod.id][qi] = oi; saveQuiz(map);
+        var qEl = btn.closest(".q");
+        qEl.querySelectorAll(".opt").forEach(function (o) {
+          var ooi = +o.getAttribute("data-o");
+          o.disabled = true;
+          if (ooi === q.answer) o.classList.add("correct");
+          else if (ooi === oi) o.classList.add("wrong");
+          else o.classList.add("dim");
+        });
+        var ex = qEl.querySelector(".explain");
+        ex.innerHTML = explainHTML(q, oi);
+        ex.classList.add("show");
+        updateQuizScore(mod);
+      });
+    });
+    updateQuizScore(mod);
+  }
+  function updateQuizScore(mod) {
+    var el = document.getElementById("score-" + mod.id);
+    if (!el) return;
+    var saved = loadQuiz()[mod.id] || {};
+    var answered = Object.keys(saved).length;
+    var total = mod.quiz.length, correct = 0;
+    mod.quiz.forEach(function (q, qi) { if (saved[qi] === q.answer) correct++; });
+    if (answered === 0) { el.innerHTML = '<span class="s-muted">' + total + " preguntas · elegí una opción para empezar</span>"; return; }
+    var h = '<span class="s-badge">Llevás ' + correct + " de " + total + " ✓</span>";
+    h += answered < total ? '<span class="s-muted">· te faltan ' + (total - answered) + "</span>" : '<span class="s-muted">· ¡completaste el quiz!</span>';
+    h += '<button class="btn btn--sm btn--ghost" data-reset-quiz="' + mod.id + '">Reintentar</button>';
+    el.innerHTML = h;
+    var rb = el.querySelector("[data-reset-quiz]");
+    if (rb) rb.addEventListener("click", function () {
+      var m = loadQuiz(); delete m[mod.id]; saveQuiz(m);
+      renderModule(mod);
+      var qz = document.getElementById("quiz-" + mod.id);
+      if (qz) qz.scrollIntoView({ block: "start" });
+    });
+  }
 
   // ---- toast ----
   var toastEl;
