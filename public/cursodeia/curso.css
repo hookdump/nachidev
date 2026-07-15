@@ -133,6 +133,22 @@ body { overflow-x: hidden; }
   background: var(--bg-elev-2); border: 1px solid var(--border);
   border-radius: 10px; padding: 0.9rem 1rem; overflow-x: auto; white-space: pre-wrap; color: var(--fg-dim);
 }
+/* terminal / command block */
+.lesson-body pre.cmd {
+  font-family: var(--font-mono); font-size: 0.83rem; line-height: 1.5;
+  background: #0b0b11; border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.9rem 1rem; overflow-x: auto; white-space: pre-wrap; color: #d7d7e0;
+}
+.lesson-body pre.cmd::selection, .lesson-body pre.cmd *::selection { background: var(--accent-glow); }
+/* two-level "advanced track": collapsible, opt-in, clearly optional */
+.lesson-body details.adv { margin-top: 1.5rem; border: 1px solid rgba(124, 92, 255, 0.35); background: rgba(124, 92, 255, 0.05); border-radius: 12px; padding: 0 1.1rem; }
+.lesson-body details.adv > summary { cursor: pointer; list-style: none; padding: 0.9rem 0; font-family: var(--font-mono); font-weight: 700; font-size: 0.9rem; color: var(--accent-soft); display: flex; align-items: center; gap: 0.55rem; }
+.lesson-body details.adv > summary::-webkit-details-marker { display: none; }
+.lesson-body details.adv > summary::after { content: "▾"; margin-left: auto; transition: transform 0.2s; color: var(--muted); }
+.lesson-body details.adv[open] > summary::after { transform: rotate(180deg); }
+.lesson-body details.adv[open] { padding-bottom: 1.1rem; }
+.lesson-body details.adv .adv-badge { font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; background: var(--accent); color: #fff; padding: 0.12rem 0.5rem; border-radius: 99px; font-weight: 700; }
+.lesson-body details.adv > summary + * { margin-top: 0.2rem; }
 
 /* callouts — full soft-colored border + faint tint per type (no side-tab) */
 .lesson-body .note { border: 1px solid var(--border); background: var(--bg-elev); border-radius: 11px; padding: 0.9rem 1.05rem; }
