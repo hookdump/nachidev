@@ -1,0 +1,6 @@
+# Cloudflare Pages headers.
+# Revalidate the app on every load so content/code updates show immediately
+# (returns a fast 304 when nothing changed). This is a small static site,
+# so always-revalidate is the right trade-off over long browser caching.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
