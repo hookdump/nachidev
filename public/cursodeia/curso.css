@@ -241,6 +241,49 @@ body { overflow-x: hidden; }
 .quiz-score .s-muted { color: var(--muted); font-size: 0.82rem; }
 .quiz-score .btn { margin-left: auto; }
 
+/* ---------- glossary tooltip term (cross-linking) ---------- */
+.lesson-body .gloss { border-bottom: 1px dotted var(--accent-soft); cursor: help; color: var(--fg); }
+.lesson-body .gloss:hover, .lesson-body .gloss:focus-visible { color: var(--accent-soft); border-bottom-color: var(--accent); outline: none; }
+#gloss-pop { position: fixed; z-index: 70; max-width: 320px; background: var(--bg-elev-2); border: 1px solid var(--accent); border-radius: 10px; padding: 0.7rem 0.85rem; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transform: translateY(4px); transition: opacity 0.12s, transform 0.12s; }
+#gloss-pop.show { opacity: 1; transform: translateY(0); }
+#gloss-pop .gp-term { display: block; font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent-soft); margin-bottom: 0.25rem; }
+#gloss-pop .gp-def { display: block; font-family: var(--font-sans); font-size: 0.86rem; line-height: 1.5; color: var(--fg-dim); }
+
+/* ---------- topbar search button ---------- */
+.topbar .search-btn { display: inline-flex; align-items: center; gap: 0.45rem; background: var(--bg-elev); border: 1px solid var(--border); color: var(--muted); border-radius: 9px; padding: 0.42rem 0.7rem; cursor: pointer; font-family: var(--font-mono); font-size: 0.82rem; }
+.topbar .search-btn:hover { border-color: var(--accent); color: var(--fg); }
+.topbar .search-btn .sb-kbd { font-family: var(--font-mono); font-size: 0.7rem; background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: 5px; padding: 0.05rem 0.35rem; color: var(--muted-2); }
+
+/* ---------- search overlay ---------- */
+.search-ov { position: fixed; inset: 0; z-index: 80; background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(3px); display: none; padding: 10vh 1rem 1rem; }
+.search-ov.show { display: block; }
+.search-panel { max-width: 640px; margin: 0 auto; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+.search-top { display: flex; align-items: center; gap: 0.6rem; padding: 0.9rem 1rem; border-bottom: 1px solid var(--border-soft); }
+.search-top .s-ic { font-size: 1rem; }
+.search-top input { flex: 1; background: none; border: none; outline: none; color: var(--fg); font-family: var(--font-sans); font-size: 1.05rem; }
+.search-top kbd { font-family: var(--font-mono); font-size: 0.7rem; background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: 5px; padding: 0.1rem 0.4rem; color: var(--muted-2); }
+.search-results { max-height: 62vh; overflow-y: auto; }
+.search-results .sr a { display: block; padding: 0.7rem 1rem; border-bottom: 1px solid var(--border-soft); }
+.search-results .sr a:hover, .search-results .sr.sel a { background: var(--bg-elev-2); text-decoration: none; }
+.search-results .sr-mod { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
+.search-results .sr-title { font-family: var(--font-mono); color: var(--fg); font-size: 0.95rem; margin-top: 0.15rem; }
+.search-results .sr-snip { font-family: var(--font-sans); color: var(--muted); font-size: 0.83rem; margin-top: 0.2rem; line-height: 1.4; }
+.search-results mark { background: var(--accent-glow); color: var(--fg); border-radius: 3px; padding: 0 2px; }
+.search-results .sr-empty { padding: 1.2rem 1rem; color: var(--muted); font-size: 0.9rem; }
+
+/* ---------- glossary view ---------- */
+.gloss-view .gloss-filter { margin: 1.25rem 0; }
+.gloss-view .gloss-filter input { width: 100%; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.9rem; color: var(--fg); font-family: var(--font-sans); font-size: 0.95rem; outline: none; }
+.gloss-view .gloss-filter input:focus { border-color: var(--accent); }
+.gloss-view .gloss-list { display: grid; gap: 0.7rem; }
+.gloss-view .gloss-item { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 11px; padding: 0.9rem 1.1rem; }
+.gloss-view .gloss-item h3 { font-family: var(--font-mono); font-size: 1rem; color: var(--accent-soft); margin: 0 0 0.25rem; }
+.gloss-view .gloss-item p { font-family: var(--font-sans); font-size: 0.92rem; line-height: 1.55; color: var(--fg-dim); margin: 0; }
+
+@media (max-width: 860px) {
+  .topbar .search-btn .sb-label, .topbar .search-btn .sb-kbd { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
