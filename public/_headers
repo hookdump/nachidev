@@ -4,3 +4,7 @@
 # so always-revalidate is the right trade-off over long browser caching.
 /*
   Cache-Control: public, max-age=0, must-revalidate
+
+# Ensure JS is decoded as UTF-8 (content has accents/ñ)
+/*.js
+  Content-Type: text/javascript; charset=utf-8
