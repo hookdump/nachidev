@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git y GitHub rápido — Curso gratis en español</title>
+  <meta name="description" content="Curso rápido y gratuito para entender Git y GitHub desde cero, en español. Pensado para quien crea apps con IA y quiere entender qué hace la IA por debajo." />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔀</text></svg>" />
+  <link rel="stylesheet" href="/assets/base.css" />
+  <link rel="stylesheet" href="/cursodeia/curso.css" />
+</head>
+<body>
+  <a href="#view" class="btn btn--sm" style="position:absolute;left:-9999px;top:0" onfocus="this.style.left='8px';this.style.top='8px';this.style.zIndex='100'" onblur="this.style.left='-9999px'">Saltar al contenido</a>
+
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    <div class="crumb">
+      <a href="/">nachidev</a>
+      <span class="sep">/</span>
+      <a href="#/">Curso de Git</a>
+      <span class="sep">/</span>
+      <span class="cur" id="crumbCur">Inicio</span>
+    </div>
+    <button class="search-btn" id="searchBtn" aria-label="Buscar en el curso (Ctrl+K)"><span class="sb-ic">🔍</span><span class="sb-label">Buscar</span><kbd class="sb-kbd">⌘K</kbd></button>
+    <div class="bar-wrap" title="Tu progreso en el curso">
+      <div class="progress"><i id="topBar"></i></div>
+      <span class="pct" id="topPct">0%</span>
+    </div>
+    <a class="home-link btn btn--sm btn--ghost" href="/">← Proyectos</a>
+  </header>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="Índice del curso"></aside>
+    <div class="scrim" id="scrim"></div>
+    <main class="view" id="view"></main>
+  </div>
+
+  <script src="/cursogit/content.js"></script>
+  <script src="/cursodeia/curso.js"></script>
+</body>
+</html>

@@ -4,8 +4,9 @@
   "use strict";
 
   var CURSO = window.CURSO;
-  var DONE_KEY = "cursoia:done";
-  var TOTAL_KEY = "cursoia:total";
+  var STORE = (CURSO && CURSO.store) || "cursoia"; // per-course localStorage namespace
+  var DONE_KEY = STORE + ":done";
+  var TOTAL_KEY = STORE + ":total";
 
   var els = {
     toc: document.getElementById("toc"),
@@ -111,7 +112,9 @@
     var cont = firstIncompleteLesson();
     var allDone = d === TOTAL;
     var h = '<div class="view-inner mod-view">';
-    h += '<div class="ov-hero"><h1>' + esc(CURSO.title).replace(/^IA/, "<b>IA</b>") + "</h1>";
+    var titleEsc = esc(CURSO.title);
+    var titleHTML = CURSO.brand ? titleEsc.replace(esc(CURSO.brand), "<b>" + esc(CURSO.brand) + "</b>") : titleEsc.replace(/^IA/, "<b>IA</b>");
+    h += '<div class="ov-hero"><h1>' + titleHTML + "</h1>";
     h += '<p class="sub">' + esc(CURSO.subtitle) + "</p></div>";
 
     h += '<div class="ov-progress">';
@@ -224,7 +227,7 @@
   function doneCountFrom(map) { var n = 0; lessons.forEach(function (x) { if (map[x.lesson.id]) n++; }); return n; }
 
   // ---- quiz ----
-  var QUIZ_KEY = "cursoia:quiz";
+  var QUIZ_KEY = STORE + ":quiz";
   function loadQuiz() { try { return JSON.parse(localStorage.getItem(QUIZ_KEY) || "{}") || {}; } catch (e) { return {}; } }
   function saveQuiz(m) { try { localStorage.setItem(QUIZ_KEY, JSON.stringify(m)); } catch (e) {} }
   function letter(i) { return String.fromCharCode(65 + i); }

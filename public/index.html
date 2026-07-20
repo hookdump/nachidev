@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>nachidev — proyectos</title>
-  <meta name="description" content="Proyectos de nachidev. Empezá por el Curso de IA gratis, en español." />
+  <meta name="description" content="Proyectos de nachidev. Cursos gratis en español: aprendé a usar IA y a manejar Git y GitHub desde cero." />
   <meta name="color-scheme" content="dark" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💜</text></svg>" />
   <link rel="stylesheet" href="/assets/base.css" />
@@ -56,7 +56,7 @@
     <main>
       <div class="section-head">
         <h2>Proyectos</h2>
-        <span class="count" id="count">1 disponible</span>
+        <span class="count" id="count">2 disponibles</span>
       </div>
 
       <div class="grid">
@@ -76,6 +76,22 @@
           </div>
         </a>
 
+        <a class="card" href="/cursogit/" id="card-git">
+          <div class="ico">🔀</div>
+          <h3>Git y GitHub rápido</h3>
+          <p>Entendé qué hacen Git y GitHub cuando programás con IA. Corto, de cero y en criollo, para dejarles de tener miedo.</p>
+          <div class="mini" id="git-mini">
+            <div class="progress"><i id="git-bar"></i></div>
+            <div class="lbl" id="git-lbl">Progreso guardado</div>
+          </div>
+          <div class="foot">
+            <span class="pill">Gratis</span>
+            <span class="pill">Español</span>
+            <span class="pill">Para vibe coders</span>
+            <span class="go" id="git-go">Empezar →</span>
+          </div>
+        </a>
+
         <div class="card soon" aria-disabled="true">
           <div class="ico">✨</div>
           <h3>Próximamente</h3>
@@ -91,23 +107,29 @@
   </div>
 
   <script>
-    // Reflect saved course progress on the project card, if any.
+    // Reflect each course's saved progress on its project card, if any.
     (function () {
-      try {
-        var TOTAL = 49; // total de lecciones del curso (se ajusta solo si difiere)
-        var raw = localStorage.getItem('cursoia:done');
-        var meta = localStorage.getItem('cursoia:total');
-        if (meta) TOTAL = parseInt(meta, 10) || TOTAL;
-        var done = raw ? Object.keys(JSON.parse(raw)).length : 0;
-        if (done > 0 && TOTAL > 0) {
-          var pct = Math.min(100, Math.round((done / TOTAL) * 100));
-          var mini = document.getElementById('curso-mini');
-          mini.classList.add('on');
-          document.getElementById('curso-bar').style.transform = 'scaleX(' + (pct / 100) + ')';
-          document.getElementById('curso-lbl').textContent = done + ' de ' + TOTAL + ' lecciones · ' + pct + '%';
-          document.getElementById('curso-go').textContent = pct >= 100 ? 'Repasar →' : 'Continuar →';
-        }
-      } catch (e) { /* localStorage no disponible: mostramos la tarjeta normal */ }
+      // { localStorage namespace, id prefix on the card, fallback total }
+      var courses = [
+        { store: 'cursoia', prefix: 'curso', fallback: 49 },
+        { store: 'cursogit', prefix: 'git', fallback: 20 }
+      ];
+      courses.forEach(function (c) {
+        try {
+          var TOTAL = c.fallback;
+          var raw = localStorage.getItem(c.store + ':done');
+          var meta = localStorage.getItem(c.store + ':total');
+          if (meta) TOTAL = parseInt(meta, 10) || TOTAL;
+          var done = raw ? Object.keys(JSON.parse(raw)).length : 0;
+          if (done > 0 && TOTAL > 0) {
+            var pct = Math.min(100, Math.round((done / TOTAL) * 100));
+            document.getElementById(c.prefix + '-mini').classList.add('on');
+            document.getElementById(c.prefix + '-bar').style.transform = 'scaleX(' + (pct / 100) + ')';
+            document.getElementById(c.prefix + '-lbl').textContent = done + ' de ' + TOTAL + ' lecciones · ' + pct + '%';
+            document.getElementById(c.prefix + '-go').textContent = pct >= 100 ? 'Repasar →' : 'Continuar →';
+          }
+        } catch (e) { /* localStorage no disponible: mostramos la tarjeta normal */ }
+      });
     })();
   </script>
 </body>
